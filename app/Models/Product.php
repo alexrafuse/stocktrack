@@ -10,6 +10,11 @@ class Product extends Model
 {
     use HasFactory;
 
+    public function track()
+    {
+        $this->stock->each->track();
+    }
+
     public function inStock(): bool
     {
         return $this->stock()->where('in_stock', true)->exists();
