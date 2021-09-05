@@ -4,14 +4,14 @@ namespace App\Clients;
 
 class StockStatus
 {
-    public $available;
-    public $price;
+    public bool $available;
+    public int $price;
 
     /**
-     * @param $available
-     * @param $price
+     * @param bool $available
+     * @param int $price
      */
-    public function __construct($available, $price)
+    public function __construct(bool $available,int $price)
     {
         $this->available = $available;
         $this->price = $price;

@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Retailer;
 use App\Models\Stock;
 use Illuminate\Database\Seeder;
+use function tap;
 
 class RetailerWithProductSeeder extends Seeder
 {
@@ -16,16 +17,16 @@ class RetailerWithProductSeeder extends Seeder
      */
     public function run()
     {
-        $switch = Product::create(['name' => 'Nintendo Switch']);
+        $product = Product::create(['name' => 'Fake Product']);
         $bestBuy = Retailer::create(['name' => 'Best Buy']);
 
         $stock = new Stock([
-            'price' => 10000,
-            'url' => 'http://alexrafuse.com/thing',
+            'price' => 99999,
+            'url' => 'https://foo.com',
             'sku' => '12345',
             'in_stock' => false,
         ]);
 
-        $bestBuy->addStock($switch, $stock);
+        $bestBuy->addStock($product, $stock);
     }
 }

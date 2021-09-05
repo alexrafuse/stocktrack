@@ -2,15 +2,11 @@
 
 namespace App\Models;
 
-use App\Clients\ClientFactory;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Stock extends Model
 {
-    use HasFactory;
-
     protected $table = 'stock';
 
     protected $casts = [

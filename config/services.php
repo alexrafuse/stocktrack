@@ -30,4 +30,11 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'clients' =>
+    [
+        'bestBuy' => [
+            'key' => env('BEST_BUY_KEY')
+        ]
+    ]
+
 ];
