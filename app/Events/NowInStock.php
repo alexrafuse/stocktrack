@@ -15,7 +15,7 @@ class NowInStock
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    protected Stock $stock;
+    public Stock $stock;
     /**
      * Create a new event instance.
      *
