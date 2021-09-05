@@ -3,9 +3,8 @@
 namespace App\Models;
 
 use App\Clients\Client;
-use App\Clients\ClientFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use Facades\App\Clients\ClientFactory;
 
 class Retailer extends Model
 {
@@ -25,6 +24,6 @@ class Retailer extends Model
 
     public function client(): Client
     {
-        return (new ClientFactory())->make($this);
+        return ClientFactory::make($this);
     }
 }

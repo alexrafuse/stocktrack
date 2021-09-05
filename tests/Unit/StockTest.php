@@ -33,12 +33,8 @@ class StockTest extends TestCase
     {
         $this->seed(RetailerWithProductSeeder::class);
 
-        Http::fake(function() {
-            return [
-                'salePrice' => 99.00, 'onlineAvailability' => true
-            ];
-        });
-
+        ClientFactory::shouldReceive('make->checkAvailability')
+            ->andReturn(new StockStatus(true,9900));
 
         $stock = tap(Stock::first())->track();
 

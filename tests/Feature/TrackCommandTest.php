@@ -22,11 +22,8 @@ function it_tracks_product_stock()
     $this->seed(RetailerWithProductSeeder::class);
     $this->assertFalse(Product::first()->inStock());
 
-    \Http::fake(function() {
-        return [
-            'salePrice' => 299.99, 'onlineAvailability' => true
-        ];
-    });
+    ClientFactory::shouldReceive('make->checkAvailability')
+        ->andReturn(new StockStatus(true,299900));
 
     $this->artisan('track')
         ->expectsOutput('All done!');
