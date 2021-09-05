@@ -17,6 +17,7 @@ class ProductHistoryTest extends TestCase
     /** @test */
     function it_records_history_each_time_a_stock_is_tracked()
     {
+
         $this->seed(RetailerWithProductSeeder::class);
         $this->mockClientRequest($available = false, $price = 9999);
         $product = Product::first();

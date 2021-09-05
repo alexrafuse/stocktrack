@@ -16,6 +16,7 @@ class TrackCommand extends Command
      */
     protected $signature = 'track';
 
+
     /**
      * The console command description.
      *
