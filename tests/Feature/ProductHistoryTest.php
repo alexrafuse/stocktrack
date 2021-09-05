@@ -3,17 +3,12 @@
 namespace Tests\Feature;
 
 use App\Clients\StockStatus;
-use App\Models\History;
 use App\Models\Product;
-use App\Models\Stock;
 use Database\Seeders\RetailerWithProductSeeder;
 use Facades\App\Clients\ClientFactory;
-use Facades\App\Clients\Client;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use function var_dump;
 
 class ProductHistoryTest extends TestCase
 {
@@ -25,18 +20,19 @@ class ProductHistoryTest extends TestCase
         $this->seed(RetailerWithProductSeeder::class);
 
         ClientFactory::shouldReceive('make->checkAvailability')
-            ->andReturn(new StockStatus(true,9999));
+            ->andReturn(new StockStatus($available = true,$price = 9999));
 
-        $this->assertSame(0, History::count());
-        $product = tap(Product::first())->track();
-        $this->assertSame(1, History::count());
+        $product = Product::first();
 
-        $history = History::first();
-        $stock = $product->stock[0];
-        $this->assertEquals($stock->price, $history->price);
-        $this->assertEquals($stock->in_stock, $history->in_stock);
-        $this->assertEquals($stock->product_id, $history->product_id);
-        $this->assertEquals($stock->id, $history->stock_id);
+        $this->assertCount(0, $product->history);
+        $product->track();
+        $this->assertCount(1, $product->refresh()->history);
+
+        $history = $product->history->first();
+        $this->assertEquals($price, $history->price);
+        $this->assertEquals($available, $history->in_stock);
+        $this->assertEquals($product->id, $history->product_id);
+        $this->assertEquals($product->stock[0]->id, $history->stock_id);
 
     }
 
