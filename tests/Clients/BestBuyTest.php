@@ -29,7 +29,7 @@ class BestBuyTest extends TestCase
          $stockStatus = (new BestBuy())->checkAvailability($stock);
          var_dump($stockStatus);
      } catch (Exception $e) {
-         $this->fail('Failed to track the BestBuy API properly', $e->getMessage());
+         $this->fail('Failed to track the BestBuy API properly. ' . $e->getMessage());
      }
 
      $this->assertTrue(true);

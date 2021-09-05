@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\History;
+use App\Models\Product;
 use App\Models\Stock;
 use Database\Seeders\RetailerWithProductSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -26,11 +27,16 @@ class ProductHistoryTest extends TestCase
 
         $this->assertSame(0, History::count());
 
-        $stock = tap(Stock::first())->track();
+
+
+        $product = tap(Product::first())->track();
+
 
         $this->assertSame(1, History::count());
 
         $history = History::first();
+
+        $stock = $product->stock[0];
 
         $this->assertEquals($stock->price, $history->price);
         $this->assertEquals($stock->in_stock, $history->in_stock);

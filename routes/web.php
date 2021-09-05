@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/products', function () {
+    return Product::all();
+});
+Route::get('/retailers', function () {
+    return Product::all();
+});Route::get('/stock', function () {
+    return Product::all();
+});Route::get('/history', function () {
+    return Product::all();
+});Route::get('/', function () {
+    return ['Welcome to stocktrack!'];
+});
+
 Route::get('/', function () {
-    return view('welcome');
+    Product::all()->each->track();
+
 });

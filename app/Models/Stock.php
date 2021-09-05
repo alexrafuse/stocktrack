@@ -14,7 +14,7 @@ class Stock extends Model
     ];
 
 
-    public function track()
+    public function track($callback = null)
     {
         $status = $this->retailer
             ->client()
@@ -25,7 +25,7 @@ class Stock extends Model
             'price' => $status->price,
         ]);
 
-        $this->recordHistory();
+        $callback && $callback($this);
 
     }
 
@@ -35,18 +35,13 @@ class Stock extends Model
         return $this->belongsTo(Retailer::class);
     }
 
-    public function history()
+    public function product()
     {
-        return $this->hasMany(History::class);
+        return $this->belongsTo(Product::class);
     }
 
-    protected function recordHistory(): void
-    {
-        $this->history()->create([
-            'price' => $this->price,
-            'in_stock' => $this->in_stock,
-            'product_id' => $this->product_id,
-        ]);
-    }
+
+
+
 
 }
