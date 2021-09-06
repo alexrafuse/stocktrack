@@ -3,8 +3,7 @@
 namespace App\Models;
 
 
-use App\Events\NowInStock;
-use App\UseCases\TrackStock;
+use App\Jobs\TrackStock;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Stock extends Model
@@ -18,7 +17,7 @@ class Stock extends Model
 
     public function track($callback = null)
     {
-          (new TrackStock($this))->handle();
+        TrackStock::dispatch($this);
     }
 
     public function retailer(): BelongsTo

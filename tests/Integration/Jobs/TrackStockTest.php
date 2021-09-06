@@ -1,10 +1,11 @@
 <?php
 
 
+use App\Jobs\TrackStock;
 use App\Models\History;
 use App\Models\Stock;
 use App\Notifications\ImportantStockUpdate;
-use App\UseCases\TrackStock;
+
 use Database\Seeders\RetailerWithProductSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -20,8 +21,7 @@ class TrackStockTest extends TestCase
         Notification::fake();
         $this->mockClientRequest(true, 24900);
         $this->seed(RetailerWithProductSeeder::class);
-        (new TrackStock(Stock::first()))->handle();
-
+        TrackStock::dispatch(Stock::first());
     }
 
 

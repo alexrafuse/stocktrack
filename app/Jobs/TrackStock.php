@@ -1,15 +1,23 @@
 <?php
 
-namespace App\UseCases;
+namespace App\Jobs;
 
 use App\Clients\StockStatus;
 use App\Models\History;
 use App\Models\Stock;
 use App\Models\User;
 use App\Notifications\ImportantStockUpdate;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
-class TrackStock implements UseCase
+class TrackStock // implements ShouldQueue
 {
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
     protected Stock $stock;
     protected StockStatus $status;
 
@@ -65,6 +73,4 @@ class TrackStock implements UseCase
     {
         return !$this->stock->in_stock && $this->status->available;
     }
-
-
 }
