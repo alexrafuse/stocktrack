@@ -8,9 +8,8 @@ use App\Models\Stock;
 use App\Models\User;
 use App\Notifications\ImportantStockUpdate;
 
-class TrackStock
+class TrackStock implements UseCase
 {
-
     protected Stock $stock;
     protected StockStatus $status;
 
@@ -27,7 +26,6 @@ class TrackStock
         $this->recordToHistory();
     }
 
-
     protected function checkAvailability()
     {
         $this->status = $this->stock->retailer
@@ -37,13 +35,8 @@ class TrackStock
 
     protected function notifyUser()
     {
-
-        // if stock is not available, but now is...
-        if (!$this->stock->in_stock && $this->status->available) {
-            User::first()->notify(
-                new ImportantStockUpdate($this->stock
-                ));
-
+        if ($this->isNowInStock()) {
+            User::first()->notify(new ImportantStockUpdate($this->stock));
         }
     }
 
@@ -63,6 +56,14 @@ class TrackStock
             'product_id' => $this->stock->product->id,
             'stock_id' => $this->stock->id,
         ]);
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isNowInStock(): bool
+    {
+        return !$this->stock->in_stock && $this->status->available;
     }
 
 
