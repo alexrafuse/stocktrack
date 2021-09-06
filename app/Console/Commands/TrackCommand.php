@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Product;
 use Illuminate\Console\Command;
+use function var_dump;
 
 class TrackCommand extends Command
 {
@@ -31,8 +32,20 @@ class TrackCommand extends Command
      */
     public function handle()
     {
-       Product::all()->each->track();
+        $products = Product::all();
+        $this->output->progressStart($products->count());
+       $products->each(function($product) {
+           $product->track();
+           $this->output->progressAdvance();
+       });
 
-       $this->info('All done!');
+       $this->output->progressFinish();
+//
+//       $this->table(
+//           ['First', 'Last'],
+//          [ ['Alex', 'Rafuse']]
+//       );
+
+//       $this->info('All done!');
     }
 }
